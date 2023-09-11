@@ -1,29 +1,26 @@
-import React from 'react'
+import React from "react";
 
 const useStockCall = () => {
+  getStockData("sales");
+  getStockData("firms");
 
-    const getFirms = async () => {
-        const BASE_URL = "https://12256.fullstack.clarusway.com/";
-    
-        const url = "firms";
-    
-        try {
-          dispatch(fetchStart());
-          const { data } = await axios(`${BASE_URL}stock/firms/`, {
-            headers: { Authorization: `Token ${token}` },
-          });
-    
-          dispatch(getSuccess({ data, url }));
-        } catch (error) {
-          console.log(error);
-          dispatch(fetchFail);
-        }
-      };
+  const getStockData = async (url) => {
+    const BASE_URL = "https://12256.fullstack.clarusway.com/";
 
+    try {
+      dispatch(fetchStart());
+      const { data } = await axios(`${BASE_URL}stock/${url}/`, {
+        headers: { Authorization: `Token ${token}` },
+      });
 
-  return (
-    <div>useStockCall</div>
-  )
-}
+      dispatch(getSuccess({ data, url }));
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchFail);
+    }
+  };
 
-export default useStockCall
+  return <div>useStockCall</div>;
+};
+
+export default useStockCall;
