@@ -3,13 +3,14 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFail, getSuccess, fetchStart } from "../features/stockSlice";
+
 const Firms = () => {
   const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const getFirms = async () => {
     const BASE_URL = "https://12256.fullstack.clarusway.com/";
 
-const url = "firms"
+    const url = "firms";
 
     try {
       dispatch(fetchStart());
@@ -17,7 +18,7 @@ const url = "firms"
         headers: { Authorization: `Token ${token}` },
       });
 
-      dispatch(getSuccess({data,url}));
+      dispatch(getSuccess({ data, url }));
     } catch (error) {
       console.log(error);
       dispatch(fetchFail);
