@@ -1,21 +1,25 @@
 import { fetchFail, getSuccess, fetchStart } from "../features/stockSlice";
-import axios from "axios";
+
 import { useDispatch, useSelector } from "react-redux";
+import useAxios from "./useAxios";
+import axios from "axios";
 
 const useStockCall = () => {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
+  const { axiosWithToken } = useAxios();
 
   const getStockData = async (url) => {
-    const BASE_URL = "https://12256.fullstack.clarusway.com/";
+    // const BASE_URL = "https://12256.fullstack.clarusway.com/";
+
     dispatch(fetchStart());
 
     try {
-      const { data } = await axios(`${BASE_URL}stock/${url}/`, {
-        headers: { Authorization: `Token ${token}` },
-      });
-
- getStockData(url)
+      // const { data } = await axios(`${BASE_URL}stock/${url}/`, {
+      //   headers: { Authorization: `Token ${token}` },
+      // });
+      const { data } = await axiosWithToken.get(`stock/${url}/`);
+      dispatch(getSuccess({ data,url }));
     } catch (error) {
       console.log(error);
       dispatch(fetchFail);
@@ -31,14 +35,14 @@ const useStockCall = () => {
         headers: { Authorization: `Token ${token}` },
       });
 
-      dispatch(getSuccess({ url }));
+      getStockData(url);
     } catch (error) {
       console.log(error);
       dispatch(fetchFail);
     }
   };
 
-  return { getStockData,deleteStockData }
+  return { getStockData, deleteStockData };
 };
 
 export default useStockCall;
