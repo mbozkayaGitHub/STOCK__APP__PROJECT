@@ -1,7 +1,8 @@
- import { Button, Typography } from "@mui/material";
+ import { Button, Grid, Typography } from "@mui/material";
 // import axios from "axios";
 import React, { useEffect } from "react";
 import useStockCall from "../hooks/useStockCall";
+import { useSelector } from "react-redux";
 // import { useDispatch, useSelector } from "react-redux";
 // import { fetchFail, getSuccess, fetchStart } from "../features/stockSlice";
 
@@ -27,18 +28,28 @@ const Firms = () => {
   // };
 
 const {getStockData} = useStockCall()
-
+  const {firms} =useSelector(state=> state.stock)
   useEffect(() => {
     // getFirms();
     getStockData("firms")
   }, []);
 
+  console.log(firms);
   return (
     <div>
       <Typography variant="h4" color="error" mb={3}>
         Firm
       </Typography>
       <Button variant="contained"> New Firm</Button>
+      <Grid container>
+      {firms.map((firm)=> (
+      
+          <Grid item>
+
+          </Grid>
+
+      ))}
+              </Grid>
     </div>
   );
 };
