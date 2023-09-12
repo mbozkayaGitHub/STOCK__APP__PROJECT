@@ -3,6 +3,7 @@ import { fetchFail, getSuccess, fetchStart } from "../features/stockSlice";
 import { useDispatch, useSelector } from "react-redux";
 import useAxios from "./useAxios";
 import axios from "axios";
+import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify";
 
 const useStockCall = () => {
   const dispatch = useDispatch();
@@ -32,11 +33,12 @@ const useStockCall = () => {
 
     try {
       await axiosWithToken.delete(`stock/${url}/${id}/`)
-
+      toastSuccessNotify(`${url} successfully deleted`) 
       getStockData(url);
     } catch (error) {
       console.log(error);
       dispatch(fetchFail);
+      toastErrorNotify(`${url} can not be deleted`) 
     }
   };
 
