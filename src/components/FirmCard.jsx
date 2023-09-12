@@ -32,7 +32,7 @@ export default function FirmCard({firm}) {
         <CardMedia
         sx={{p:1,objectFit:"contain", height:"130px" }}
         image= {firm?.image}
-        title="green iguana"
+        title="firm-image"
       />
        <Typography variant="body2" color="text.secondary">
           Phone:{firm?.phone}
@@ -41,7 +41,7 @@ export default function FirmCard({firm}) {
       <CardActions>
       <EditIcon sx={btnStyle}/>
       <DeleteOutlineIcon sx={btnStyle}
-      onClick={()=>deleteStockData("firm", firm.id)}
+      onClick={()=>deleteStockData("firms", firm.id)}
       />
       </CardActions>
     </Card>
