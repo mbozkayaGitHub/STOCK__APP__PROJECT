@@ -3,6 +3,8 @@
 import React, { useEffect } from "react";
 import useStockCall from "../hooks/useStockCall";
 import { useSelector } from "react-redux";
+import FirmCard from "../components/FirmCard";
+import { flex } from "../styles/globalStyles";
 // import { useDispatch, useSelector } from "react-redux";
 // import { fetchFail, getSuccess, fetchStart } from "../features/stockSlice";
 
@@ -41,11 +43,11 @@ const {getStockData} = useStockCall()
         Firm
       </Typography>
       <Button variant="contained"> New Firm</Button>
-      <Grid container>
-      {firms.map((firm)=> (
+      <Grid container sx={flex}>
+      {firms?.map((firm)=> (
       
-          <Grid item>
-
+          <Grid item key={firm.id}>
+<FirmCard  firm={firm}/>
           </Grid>
 
       ))}
