@@ -1,10 +1,11 @@
- import { Button, Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 // import axios from "axios";
 import React, { useEffect } from "react";
 import useStockCall from "../hooks/useStockCall";
 import { useSelector } from "react-redux";
 import FirmCard from "../components/FirmCard";
 import { flex } from "../styles/globalStyles";
+import FirmModal from "../components/modals/FirmModal";
 // import { useDispatch, useSelector } from "react-redux";
 // import { fetchFail, getSuccess, fetchStart } from "../features/stockSlice";
 
@@ -29,11 +30,11 @@ const Firms = () => {
   //   }
   // };
 
-const {getStockData} = useStockCall()
-  const {firms} =useSelector(state=> state.stock)
+  const { getStockData } = useStockCall();
+  const { firms } = useSelector((state) => state.stock);
   useEffect(() => {
     // getFirms();
-    getStockData("firms")
+    getStockData("firms");
   }, []);
 
   console.log(firms);
@@ -43,15 +44,15 @@ const {getStockData} = useStockCall()
         Firm
       </Typography>
       <Button variant="contained"> New Firm</Button>
-      <Grid container sx={flex}>
-      {firms?.map((firm)=> (
-      
-          <Grid item key={firm.id}>
-<FirmCard  firm={firm}/>
-          </Grid>
 
-      ))}
-              </Grid>
+      <FirmModal/>
+      <Grid container sx={flex}>
+        {firms?.map((firm) => (
+          <Grid item key={firm.id}>
+            <FirmCard firm={firm} />
+          </Grid>
+        ))}
+      </Grid>
     </div>
   );
 };
