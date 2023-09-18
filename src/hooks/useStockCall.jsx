@@ -41,8 +41,22 @@ const useStockCall = () => {
       toastErrorNotify(`${url} can not be deleted`) 
     }
   };
+  const postStockData = async (url,info) => {
+  
+    dispatch(fetchStart());
 
-  return { getStockData, deleteStockData };
+    try {
+      await axiosWithToken.post(`stock/${url}/`,info)
+      toastSuccessNotify(`${url} successfully posted`) 
+      getStockData(url);
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchFail);
+      toastErrorNotify(`${url} can not be posted`) 
+    }
+  };
+
+  return { getStockData, deleteStockData,postStockData };
 };
 
 export default useStockCall;
