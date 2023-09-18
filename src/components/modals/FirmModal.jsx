@@ -8,14 +8,14 @@ import { Button } from "@mui/material"
 import useStockCall from '../../hooks/useStockCall';
 
 
-export default function FirmModal({open,handleClose}) {
+export default function FirmModal({open,handleClose,info,setInfo}) {
 
-    const [info,setInfo] = useState({
-        name:"",
-        phone:"",
-        address:"",
-        image:"",
-    })
+    // const [info,setInfo] = useState({
+    //     name:"",
+    //     phone:"",
+    //     address:"",
+    //     image:"",
+    // })
 
     const {postStockData} = useStockCall()
 const handleChange = (e) => {
