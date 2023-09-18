@@ -33,6 +33,12 @@ const Firms = () => {
   const { getStockData } = useStockCall();
   const { firms } = useSelector((state) => state.stock);
   const [open, setOpen] = useState(false);
+      const [info,setInfo] = useState({
+         name:"",
+        phone:"",
+         address:"",
+         image:"",
+     })
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -52,11 +58,11 @@ const Firms = () => {
       </Typography>
       <Button variant="contained" onClick={handleOpen}> New Firm</Button>
 
-      <FirmModal open={open} handleClose={handleClose}/>
+      <FirmModal open={open} handleClose={handleClose} info={info} setInfo={setInfo}/>
       <Grid container sx={flex}>
         {firms?.map((firm) => (
           <Grid item key={firm.id}>
-            <FirmCard firm={firm}  setOpen={setOpen}/>
+            <FirmCard firm={firm}  setOpen={setOpen} info={info} setInfo={setInfo}/>
           </Grid>
         ))}
       </Grid>
