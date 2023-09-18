@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import { btnStyle } from '../styles/globalStyles';
 import useStockCall from '../hooks/useStockCall';
 
-export default function FirmCard({firm}) {
+export default function FirmCard({firm,setOpen}) {
 
     const {deleteStockData} =useStockCall()
   return (
@@ -39,7 +39,7 @@ export default function FirmCard({firm}) {
         </Typography>
       </CardContent>
       <CardActions>
-      <EditIcon sx={btnStyle}/>
+      <EditIcon sx={btnStyle} onClick={() =>setOpen(true)} />
       <DeleteOutlineIcon sx={btnStyle}
       onClick={()=>deleteStockData("firms", firm.id)}
       />
