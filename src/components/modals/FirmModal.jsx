@@ -1,11 +1,11 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { modalStyle } from '../../styles/globalStyles';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import { Button } from "@mui/material"
+import useStockCall from '../../hooks/useStockCall';
 
 
 export default function FirmModal({open,handleClose}) {
@@ -16,26 +16,35 @@ export default function FirmModal({open,handleClose}) {
         address:"",
         image:"",
     })
+
+    const {postStockData} = useStockCall()
 const handleChange = (e) => {
     const {name,value} = e.target
     setInfo({...info, [name]:value})
 
 }
-const handleSubmit = () => {
-       
+const handleSubmit = (e) => {
+    e.preventDefault()
+       postStockData("firms",info)
+       setInfo({  name:"",
+       phone:"",
+       address:"",
+       image:""})
 }
 console.log(info);
   return (
     <div>
       
-      <Modal
+      <Modal  
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={modalStyle}>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }} component="form" 
+          onSubmit={handleSubmit}
+        >
         <TextField
           label="Firm  Name"
           name="name"
@@ -76,12 +85,12 @@ console.log(info);
           required
           type="url"
           variant="outlined"
-         value={info?.addreimagess}
+         value={info?.image}
         onChange={handleChange}
          
         /> 
         <Button type="submit" variant="contained"
-        onSubmit={handleSubmit}
+      
         >Submit Firm </Button>
         </Box>
         </Box>
