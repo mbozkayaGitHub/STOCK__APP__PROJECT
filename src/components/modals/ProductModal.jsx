@@ -7,7 +7,7 @@ import { useState } from "react";
 import { Button } from "@mui/material";
 import useStockCall from "../../hooks/useStockCall";
 
-export default function ProducModal({ open, handleClose, info, setInfo }) {
+export default function ProductModal({ open, handleClose, info, setInfo }) {
   // const [info,setInfo] = useState({
   //     name:"",
   //     phone:"",
@@ -27,7 +27,7 @@ export default function ProducModal({ open, handleClose, info, setInfo }) {
     } else {
       postStockData("products", info);
     }
-    // postStockData("firms",info)
+
 
     handleClose();
     setInfo({ name: "", phone: "", address: "", image: "" });
