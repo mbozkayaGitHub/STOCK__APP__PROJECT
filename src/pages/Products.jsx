@@ -69,7 +69,7 @@ const Products = () => {
                 >{index + 1}
                 </TableCell>
                 <TableCell align="right">{pro.category}</TableCell>
-                <TableCell align="right">{pro.Brand}</TableCell>
+                <TableCell align="right">{pro.brand}</TableCell>
                 <TableCell align="right">{pro.name}</TableCell>
                 <TableCell align="right">{pro.stock}</TableCell>
                 <TableCell align="right">{}</TableCell>
