@@ -1,11 +1,16 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 import { modalStyle } from "../../styles/globalStyles";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import { Button } from "@mui/material";
 import useStockCall from "../../hooks/useStockCall";
+import { useSelector } from "react-redux";
 
 export default function ProductModal({ open, handleClose, info, setInfo }) {
   // const [info,setInfo] = useState({
@@ -15,31 +20,28 @@ export default function ProductModal({ open, handleClose, info, setInfo }) {
   //     image:"",
   // })
 
-  const { postStockData, putStockData } = useStockCall();
+  const { postStockData } = useStockCall();
+  const { categories } = useSelector((state) => state.stock);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInfo({ ...info, [name]: value });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (info.id) {
-      putStockData("products", info);
-    } else {
-      postStockData("products", info);
-    }
 
+    postStockData("products", info);
 
     handleClose();
     setInfo({ name: "", phone: "", address: "", image: "" });
-  }
+  };
   console.log(info);
   return (
     <div>
       <Modal
         open={open}
         onClose={() => {
-          handleClose()
-          setInfo({ name: "", phone: "", address: "", image: "" })
+          handleClose();
+          setInfo({ name: "", phone: "", address: "", image: "" });
         }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -50,6 +52,20 @@ export default function ProductModal({ open, handleClose, info, setInfo }) {
             component="form"
             onSubmit={handleSubmit}
           >
+            <FormControl fullWidth>
+              <InputLabel id="category">Categories</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                // value={age}
+                label="Category"
+                onChange={handleChange}
+              >
+                {categories.map((item) => (
+                  <MenuItem value={10}>{item.name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <TextField
               label="Firm  Name"
               name="name"

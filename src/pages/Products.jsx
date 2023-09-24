@@ -2,15 +2,14 @@ import { Button, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import useStockCall from "../hooks/useStockCall";
 import { useSelector } from "react-redux";
-import ProductCard from "../components/ProductCard";
-import { flex } from "../styles/globalStyles";
 import ProductModal from "../components/modals/ProductModal";
-import Box from '@mui/material/Box';
-import { DataGrid } from '@mui/x-data-grid';
-
+import Box from "@mui/material/Box";
+import { DataGrid, GridActionsCellItem, GridToolbar } from "@mui/x-data-grid";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { btnStyle } from "../styles/globalStyles";
 
 const Products = () => {
-  const { getStockData } = useStockCall();
+  const { getStockData, deleteStockData,getProCatBrand } = useStockCall();
   const { products } = useSelector((state) => state.stock);
   const [open, setOpen] = useState(false);
   const [info, setInfo] = useState({
@@ -19,58 +18,78 @@ const Products = () => {
     address: "",
     image: "",
   });
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false);
-  
-const columns = [
-  { field: 'id', headerName: 'ID', width: 90 },
-  {
-    field: 'firstName',
-    headerName: 'First name',
-    width: 150,
-    editable: true,
-  },
-  {
-    field: 'lastName',
-    headerName: 'Last name',
-    width: 150,
-    editable: true,
-  },
-  {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 110,
-    editable: true,
-  },
-  {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 160,
-    valueGetter: (params) =>
-      `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-  },
-];
 
-  const rows = [
-    { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-    { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-    { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-    { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-    { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-    { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-    { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-    { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-    { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+  const columns = [
+    {
+      field: "id",
+      headerName: "#",
+      minWidth: 60,
+      headerAlign: "center",
+      align: "center",
+      flex: 1,
+    },
+    {
+      field: "category",
+      headerName: "Category",
+      minWidth: 150,
+      headerAlign: "center",
+      align: "center",
+      flex: 3,
+    },
+    {
+      field: "brand",
+      headerName: "Brand",
+      minWidth: 150,
+      headerAlign: "center",
+      align: "center",
+      flex: 2,
+    },
+    {
+      field: "name",
+      headerName: "Name",
+      type: "number",
+      headerAlign: "center",
+      align: "center",
+      minWidth: 150,
+      flex: 2,
+    },
+
+    {
+      field: "stock",
+      headerName: "Stock",
+      headerAlign: "center",
+      align: "center",
+      minWidth: 110,
+      flex: 0.7,
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      type: "number",
+      headerAlign: "center",
+      align: "center",
+      minWidth: 50,
+      flex: 1,
+      renderCell: ({ id }) => (
+        <GridActionsCellItem
+          icon={<DeleteForeverIcon />}
+          label="Delete"
+          sx={btnStyle}
+          onClick={() => deleteStockData("products", id)}
+        />
+      ),
+    },
   ];
-  
-  
 
   useEffect(() => {
-    getStockData("products");
+    // getStockData("products")
+    // getStockData("categories")
+    // getStockData("brands")
+    getProCatBrand()
   }, []);
+
 
   return (
     <div>
@@ -88,38 +107,24 @@ const columns = [
         setInfo={setInfo}
       />
 
-
-
-
-
-    <Box sx={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 5,
+      <Box sx={{ width: "100%", marginTop: "1rem" }}>
+        <DataGrid
+          autoHeight
+          rows={products}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 5,
+              },
             },
-          },
-        }}
-        pageSizeOptions={[5]}
-        checkboxSelection
-        disableRowSelectionOnClick
-      />
-    </Box>
-      {/* <Grid container sx={flex}>
-        {products?.map((product) => (
-          <Grid item key={product.id}>
-            <ProductCard
-              product={product}
-              setOpen={setOpen}
-              info={info}
-              setInfo={setInfo}
-            />
-          </Grid>
-        ))}
-      </Grid> */}
+          }}
+          pageSizeOptions={[5]}
+          disableRowSelectionOnClick
+          slots={{toolBar:GridToolbar}}
+        />
+      </Box>
+   
     </div>
   );
 };
