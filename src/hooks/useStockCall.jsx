@@ -69,8 +69,25 @@ const useStockCall = () => {
       toastErrorNotify(`${url} can not be updated`) 
     }
   };
+  const getProCatBrand = async () => {
+  
+    dispatch(fetchStart());
 
-  return { getStockData, deleteStockData,postStockData,putStockData };
+    try {
+      await Promise.all([
+         axiosWithToken.get("stock/products/"),
+         axiosWithToken.get("stock/categories/"),
+         axiosWithToken.get("stock/brands/"),
+
+      ])
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchFail);
+      toastErrorNotify(`${url} can not be updated`) 
+    }
+  };
+
+  return { getStockData, deleteStockData,postStockData,putStockData,getProCatBrand };
 };
 
 export default useStockCall;
