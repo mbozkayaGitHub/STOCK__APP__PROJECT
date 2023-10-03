@@ -29,7 +29,8 @@ const useAuthCall = () => {
     } catch (error) {
       dispatch(fetchFail());
 
-      console.log(error);
+      console.log(error)
+      
     }
   };
 

@@ -62,7 +62,7 @@ export default function ProductModal({ open, handleClose, info, setInfo }) {
                 onChange={handleChange}
               >
                 {categories.map((item) => (
-                  <MenuItem value={10}>{item.name}</MenuItem>
+                  <MenuItem key={item.id} value={10}>{item.name}</MenuItem>
                 ))}
               </Select>
             </FormControl>
