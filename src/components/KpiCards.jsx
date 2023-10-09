@@ -4,9 +4,10 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import { amber, deepPurple, pink } from "@mui/material/colors";
+import { useSelector } from "react-redux";
 
 const KpiCards = () => {
-
+const {sales,purchases} = useSelector((state) => state.stock)
 
   const data = [
     { id: 1, title: "sales", 
@@ -22,7 +23,9 @@ const KpiCards = () => {
     color:amber[600],
     bgColor:amber[100] },
   ];
+ const totalSales = sales.map((item)=> Number(item.price_total)).reduce((acc,val) => acc + val,0)
 
+ console.log(totalSales);
   return (
     <Grid container justifyContent={"center"} spacing={3}>
       {data.map((item) => (
